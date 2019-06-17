@@ -5,7 +5,7 @@ import Layout from '../components/layout'
 import Image from '../components/image'
 import SEO from '../components/seo'
 
-import Checkout from '../components/checkout'
+import Plans from '../components/Products/Plans'
 
 const IndexPage = () => (
   <Layout>
@@ -19,7 +19,7 @@ const IndexPage = () => (
       </a>{' '}
       to build your own.
     </p>
-    <Checkout />
+    <Plans />
     <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
       <Image />
     </div>
