@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { graphql, StaticQuery } from 'gatsby'
-import SkuCard from './SkuCard'
+import PlanCard from './PlanCard'
 
 const conatinerStyles = {
   display: 'flex',
@@ -10,7 +10,7 @@ const conatinerStyles = {
   padding: '1rem 0 1rem 0',
 }
 
-class Skus extends Component {
+class Plans extends Component {
   state = {
     stripe: null,
   }
@@ -19,9 +19,7 @@ class Skus extends Component {
   // You can find your key in the Dashboard:
   // https://dashboard.stripe.com/account/apikeys
   componentDidMount() {
-    const stripe = window.Stripe('pk_test_qOUT7QyfVVOJlWXtnbzzZ9Tn', {
-      betas: ['checkout_beta_4'],
-    })
+    const stripe = window.Stripe('pk_test_86PRNmvFzBl74FSwWhOfL8J5000mohXvYl')
     console.log('setting stripe:', { stripe })
     this.setState({ stripe })
   }
@@ -30,28 +28,28 @@ class Skus extends Component {
     return (
       <StaticQuery
         query={graphql`
-          query SkusForProduct {
-            skus: allStripeSku(
-              filter: { product: { id: { eq: "prod_EGl7ZnT96XrPf6" } } }
-              sort: { fields: [price] }
+          query PlansForProduct {
+            plans: allStripePlan(
+              # filter: { product: { id: { eq: "prod_FGldrKJSq8XOWj" } } }
+              sort: { fields: [amount] }
             ) {
               edges {
                 node {
                   id
                   currency
-                  price
-                  attributes {
-                    name
-                  }
+                  amount
+                  product
+                  active
+                  nickname
                 }
               }
             }
           }
         `}
-        render={({ skus }) => (
+        render={({ plans }) => (
           <div style={conatinerStyles}>
-            {skus.edges.map(({ node: sku }) => (
-              <SkuCard key={sku.id} sku={sku} stripe={this.state.stripe} />
+            {plans.edges.map(({ node: plan }) => (
+              <PlanCard key={plan.id} plan={plan} stripe={this.state.stripe} />
             ))}
           </div>
         )}
@@ -60,4 +58,4 @@ class Skus extends Component {
   }
 }
 
-export default Skus
+export default Plans

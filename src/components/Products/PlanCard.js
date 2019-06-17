@@ -34,11 +34,11 @@ const formatPrice = (amount, currency) => {
   return numberFormat.format(price)
 }
 
-const SkuCard = class extends React.Component {
-  async redirectToCheckout(event, sku, quantity = 1) {
+const PlanCard = class extends React.Component {
+  async redirectToCheckout(event, plan, quantity = 1) {
     event.preventDefault()
     const { error } = await this.props.stripe.redirectToCheckout({
-      items: [{ sku, quantity }],
+      items: [{ plan, quantity }],
       successUrl: `${window.location.origin}/page-2/`,
       cancelUrl: `${window.location.origin}/advanced`,
     })
@@ -49,14 +49,14 @@ const SkuCard = class extends React.Component {
   }
 
   render() {
-    const sku = this.props.sku
+    const plan = this.props.plan
     return (
       <div style={cardStyles}>
-        <h4>{sku.attributes.name}</h4>
-        <p>Price: {formatPrice(sku.price, sku.currency)}</p>
+        <h4>{plan.nickname}</h4>
+        <p>Price: {formatPrice(plan.amount, plan.currency)}</p>
         <button
           style={buttonStyles}
-          onClick={event => this.redirectToCheckout(event, sku.id)}
+          onClick={event => this.redirectToCheckout(event, plan.id)}
         >
           BUY ME
         </button>
@@ -65,4 +65,4 @@ const SkuCard = class extends React.Component {
   }
 }
 
-export default SkuCard
+export default PlanCard
