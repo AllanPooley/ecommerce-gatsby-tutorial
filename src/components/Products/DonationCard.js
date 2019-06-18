@@ -36,10 +36,17 @@ const formatPrice = (amount, currency) => {
 }
 
 const DonationCard = class extends React.Component {
-  async redirectToCheckout(event, product, quantity = 100) {
+  async redirectToCheckout(event, sku, quantity = 100) {
     event.preventDefault()
+    console.log('Redirecting to Checkout:');
+    console.log('----------------------------');
+    console.log({ sku });
+    console.log({ quantity });
+    console.log('----------------------------');
     const { error } = await this.props.stripe.redirectToCheckout({
-      items: [{ product, quantity }],
+      items: [
+        { sku, quantity },
+      ],
       successUrl: `${window.location.origin}/success/`,
       cancelUrl: `${window.location.origin}/`,
       // customerEmail: 'jiggaboo@littleandbig.com.au',

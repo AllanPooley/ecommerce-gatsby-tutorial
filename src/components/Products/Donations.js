@@ -35,12 +35,13 @@ class Donations extends Component {
             ) {
               edges {
                 node {
-                  productData: product {
-                    name
-                  }
+                  id
                   price
                   currency
                   active
+                  productData: product {
+                    name
+                  }
                 }
               }
             }
