@@ -35,11 +35,11 @@ const formatPrice = (amount, currency) => {
   return `$${price}`
 }
 
-const PlanCard = class extends React.Component {
-  async redirectToCheckout(event, plan, quantity = 1) {
+const DonationCard = class extends React.Component {
+  async redirectToCheckout(event, product, quantity = 100) {
     event.preventDefault()
     const { error } = await this.props.stripe.redirectToCheckout({
-      items: [{ plan, quantity }],
+      items: [{ product, quantity }],
       successUrl: `${window.location.origin}/success/`,
       cancelUrl: `${window.location.origin}/`,
       // customerEmail: 'jiggaboo@littleandbig.com.au',
@@ -52,19 +52,28 @@ const PlanCard = class extends React.Component {
   }
 
   render() {
-    const plan = this.props.plan
+    const { product } = this.props;
+    const {
+      id,
+      price,
+      currency,
+      productData
+    } = product;
+    const {
+      name
+    } = productData;
     return (
       <div style={cardStyles}>
-        <h4>{plan.nickname}</h4>
+        <h4>{name}</h4>
         <button
           style={buttonStyles}
-          onClick={event => this.redirectToCheckout(event, plan.id)}
+          onClick={event => this.redirectToCheckout(event, id)}
         >
-          {formatPrice(plan.amount, plan.currency)}
+          {formatPrice(price, currency)}
         </button>
       </div>
     )
   }
 }
 
-export default PlanCard
+export default DonationCard

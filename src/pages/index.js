@@ -6,6 +6,7 @@ import Image from '../components/image'
 import SEO from '../components/seo'
 
 import Plans from '../components/Products/Plans'
+import Donations from '../components/Products/Donations'
 
 const IndexPage = () => (
   <Layout>
@@ -19,11 +20,13 @@ const IndexPage = () => (
       </a>{' '}
       to build your own.
     </p>
+    <h2>Recurring Donations</h2>
     <Plans />
+    <h2>Once-off Donations</h2>
+    <Donations />
     <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
       <Image />
     </div>
-    <Link to="/advanced/">Go to the advanced example</Link>
   </Layout>
 )
 
