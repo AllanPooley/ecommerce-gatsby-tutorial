@@ -25,13 +25,14 @@ const buttonStyles = {
 }
 
 const formatPrice = (amount, currency) => {
-  let price = (amount / 100).toFixed(2)
+  const price = (amount / 100).toFixed(2)
   let numberFormat = new Intl.NumberFormat(['en-US'], {
     style: 'currency',
     currency: currency,
     currencyDisplay: 'symbol',
   })
-  return numberFormat.format(price)
+
+  return `$${price}`
 }
 
 const PlanCard = class extends React.Component {
@@ -40,7 +41,9 @@ const PlanCard = class extends React.Component {
     const { error } = await this.props.stripe.redirectToCheckout({
       items: [{ plan, quantity }],
       successUrl: `${window.location.origin}/page-2/`,
-      cancelUrl: `${window.location.origin}/advanced`,
+      cancelUrl: `${window.location.origin}/`,
+      // customerEmail: 'jiggaboo@littleandbig.com.au',
+      // billingAddressCollection: 'required',
     })
 
     if (error) {
@@ -53,12 +56,11 @@ const PlanCard = class extends React.Component {
     return (
       <div style={cardStyles}>
         <h4>{plan.nickname}</h4>
-        <p>Price: {formatPrice(plan.amount, plan.currency)}</p>
         <button
           style={buttonStyles}
           onClick={event => this.redirectToCheckout(event, plan.id)}
         >
-          BUY ME
+          {formatPrice(plan.amount, plan.currency)}
         </button>
       </div>
     )
